@@ -3,261 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My World, Monika</title>
+    <title>Arjun // 7-Stage Rainbow Multi-Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap');
+        /* ==========================================================================
+           7 DISTINCT THEME ARCHITECTURES (Colors, Animation Styles, Gradients & Aura)
+           ========================================================================== */
+        
+        /* 1. AMBER GOLD MODE */
+        .theme-1 {
+            --bg-base: #f3f4f6; --bg-card: #ffffff; --text-main: #0f172a; --text-muted: #64748b;
+            --accent-color: #ffc800; --accent-glow: rgba(255, 200, 0, 0.15); --border-color: rgba(15, 23, 42, 0.06);
+            --panel-gradient: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+            --animation-style: softRotate 7s linear infinite;
+        }
 
+        /* 2. CYBERPUNK PURPLE MODE */
+        .theme-2 {
+            --bg-base: #0b0f19; --bg-card: #131b2e; --text-main: #f8fafc; --text-muted: #94a3b8;
+            --accent-color: #a855f7; --accent-glow: rgba(168, 85, 247, 0.25); --border-color: rgba(255, 255, 255, 0.05);
+            --panel-gradient: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            --animation-style: cyberPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* 3. EMERALD MINT MODE */
+        .theme-3 {
+            --bg-base: #061c16; --bg-card: #0a2d24; --text-main: #f0fdf4; --text-muted: #86efac;
+            --accent-color: #10b981; --accent-glow: rgba(16, 185, 129, 0.25); --border-color: rgba(16, 185, 129, 0.1);
+            --panel-gradient: linear-gradient(135deg, #022c22 0%, #064e3b 100%);
+            --animation-style: reverseRotate 5s linear infinite;
+        }
+
+        /* 4. CRIMSON RAGE MODE */
+        .theme-4 {
+            --bg-base: #110505; --bg-card: #1c0a0a; --text-main: #fef2f2; --text-muted: #fca5a5;
+            --accent-color: #ef4444; --accent-glow: rgba(239, 68, 68, 0.3); --border-color: rgba(239, 68, 68, 0.15);
+            --panel-gradient: linear-gradient(135deg, #450a0a 0%, #180404 100%);
+            --animation-style: glitchShake 0.4s linear infinite;
+        }
+
+        /* 5. ELECTRIC CYAN MODE */
+        .theme-5 {
+            --bg-base: #081521; --bg-card: #0f243a; --text-main: #f0f9ff; --text-muted: #7dd3fc;
+            --accent-color: #06b6d4; --accent-glow: rgba(6, 182, 212, 0.25); --border-color: rgba(6, 182, 212, 0.1);
+            --panel-gradient: linear-gradient(135deg, #0c4a6e 0%, #082f49 100%);
+            --animation-style: breathingGlow 3s ease-in-out infinite;
+        }
+
+        /* 6. MAGMA ORANGE MODE */
+        .theme-6 {
+            --bg-base: #1c0d02; --bg-card: #2d1605; --text-main: #fff7ed; --text-muted: #ffedd5;
+            --accent-color: #f97316; --accent-glow: rgba(249, 115, 22, 0.3); --border-color: rgba(249, 115, 22, 0.1);
+            --panel-gradient: linear-gradient(135deg, #7c2d12 0%, #3a1204 100%);
+            --animation-style: softRotate 3s linear infinite;
+        }
+
+        /* 7. MIDNIGHT SAPPHIRE MODE */
+        .theme-7 {
+            --bg-base: #030712; --bg-card: #111827; --text-main: #f9fafb; --text-muted: #9ca3af;
+            --accent-color: #3b82f6; --accent-glow: rgba(59, 130, 246, 0.25); --border-color: rgba(255, 255, 255, 0.04);
+            --panel-gradient: linear-gradient(135deg, #1e3a8a 0%, #030712 100%);
+            --animation-style: cyberPulse 4s ease infinite;
+        }
+
+        /* --- GLOBAL DESIGN --- */
         * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0; box-sizing: border-box; user-select: none;
+            transition: background-color 0.8s ease, color 0.8s ease, border-color 0.8s ease, background 0.8s ease;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #ffe3e3 0%, #ffd1d1 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        body, html {
+            width: 100%; height: 100%;
+            background-color: var(--bg-base);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-main);
             overflow: hidden;
         }
 
-        /* Floating Hearts Background Animation */
-        .hearts-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+        .cursor-aura {
+            position: fixed; width: 250px; height: 250px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%; pointer-events: none; z-index: 3;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s cubic-bezier(0.1, 0.8, 0.2, 1);
+        }
+
+        .bg-split-panel {
+            position: absolute; top: 0; right: 0; width: 45vw; height: 100%;
+            background: var(--panel-gradient);
+            clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%);
             z-index: 1;
-            pointer-events: none;
         }
 
-        .heart {
-            position: absolute;
-            font-size: 20px;
-            color: rgba(255, 75, 110, 0.4);
-            animation: float Up 6s linear infinite;
-            bottom: -50px;
+        /* NAVBAR */
+        .navbar-top {
+            position: absolute; top: 0; left: 0; width: 100%;
+            padding: 35px 6%; display: flex; justify-content: space-between; align-items: center; z-index: 10;
+        }
+        .brand-logo { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.5px; }
+        .brand-logo span { color: var(--accent-color); transition: color 0.5s ease; }
+
+        .dock-navigation {
+            display: flex; background: var(--bg-card); padding: 6px; border-radius: 30px; border: 1px solid var(--border-color);
+        }
+        .tab-trigger {
+            background: none; border: none; padding: 10px 24px; font-weight: 700; font-size: 0.85rem;
+            color: var(--text-muted); cursor: pointer; border-radius: 25px; display: flex; align-items: center; gap: 8px;
+            transition: all 0.3s ease;
+        }
+        .tab-trigger:hover, .tab-trigger.active-tab { color: var(--text-main); background: var(--bg-base); }
+
+        /* GRID CONTENT */
+        .workspace-grid {
+            position: relative; width: 88%; max-width: 1300px; height: calc(100vh - 160px);
+            margin: 140px auto 0 auto; display: flex; align-items: center; gap: 40px; z-index: 5;
+        }
+        .content-block-left { flex: 1.2; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+        
+        .fade-panel { animation: panelFadeIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        @keyframes panelFadeIn { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } }
+
+        .section-tag {
+            font-size: 0.8rem; font-weight: 800; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 3px; margin-bottom: 15px;
+            display: flex; align-items: center; gap: 8px;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        .content-block-left h1 {
+            font-family: 'Syne', sans-serif; font-size: 4.8rem; font-weight: 800; line-height: 1.05; margin-bottom: 30px; letter-spacing: -2px;
+        }
+        .content-block-left h1 span {
+            color: var(--accent-color); transition: color 0.5s ease;
         }
 
-        /* Card Container */
-        .container {
-            width: 90%;
-            max-width: 450px;
-            height: 550px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(255, 75, 110, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+        .custom-punchline span {
+            color: var(--text-main); font-weight: 700; border-bottom: 3px solid var(--accent-color); transition: border-color 0.5s ease;
         }
 
-        /* Page Layout */
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateX(100px);
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        .metrics-ticker-row { display: flex; gap: 40px; margin-top: 35px; border-top: 1px solid var(--border-color); padding-top: 25px; }
+        .metric-node h4 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--text-main); }
+        .metric-node p { font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+
+        /* EXPERTISE CARDS */
+        .about-cards-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width: 100%; }
+        .card-item {
+            background: var(--bg-card); border: 1px solid var(--border-color); padding: 26px; border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .card-item:hover { transform: translateY(-6px); border-color: var(--accent-color); }
+        .card-item .icon-wrapper {
+            width: 45px; height: 45px; background: rgba(120,120,120,0.08);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; margin-bottom: 18px; color: var(--text-main);
+        }
+        .card-item:hover .icon-wrapper { background: var(--accent-color); color: #000; }
+        .card-item h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .card-item p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+        /* AVATAR BOX & DYNAMIC ANIMATION ENGINE */
+        .photo-block-right { flex: 0.8; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 2; }
+        .matte-avatar-box {
+            position: relative; width: 360px; height: 460px;
+            background: var(--bg-card); border-radius: 30px;
+            display: flex; justify-content: center; align-items: center; overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+            transform: rotate(2deg);
         }
 
-        .page.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateX(0);
+        /* Border Glow Line */
+        .matte-avatar-box::before {
+            content: ''; position: absolute; width: 150%; height: 150%;
+            background: conic-gradient(transparent, transparent, var(--text-muted), var(--accent-color));
+            animation: var(--animation-style); z-index: 1;
         }
 
-        /* Typography & Elements */
-        h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 2.8rem;
-            color: #ff4b6e;
-            margin-bottom: 15px;
+        .matte-avatar-box::after {
+            content: ''; position: absolute; inset: 4px; background: var(--bg-card); border-radius: 26px; z-index: 1;
         }
 
-        p {
-            font-size: 1rem;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 25px;
+        .avatar-element { max-width: 85%; max-height: 85%; object-fit: contain; z-index: 2; }
+        .hidden-panel { display: none !important; }
+
+        /* ==========================================================================
+           7 UNIQUE ANIMATION MECHANISMS FOR THE BORDER CONIC GLOW
+           ========================================================================== */
+        @keyframes softRotate { 100% { transform: rotate(360deg); } }
+        @keyframes reverseRotate { 100% { transform: rotate(-360deg); } }
+        @keyframes cyberPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: scale(1.15) rotate(180deg); opacity: 1; }
+        }
+        @keyframes glitchShake {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-2px, 3px) rotate(5deg); }
+            50% { transform: translate(3px, -1px) rotate(15deg); }
+            75% { transform: translate(-1px, -2px) rotate(25deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+        @keyframes breathingGlow {
+            0%, 100% { transform: scale(0.95) rotate(45deg); filter: brightness(0.8); }
+            50% { transform: scale(1.05) rotate(225deg); filter: brightness(1.4); }
         }
 
-        .btn {
-            background: linear-gradient(135deg, #ff4b6e 0%, #ff758c 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(255, 75, 110, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 75, 110, 0.4);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .gif-placeholder {
-            font-size: 4rem;
-            margin-bottom: 20px;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Page Specific Styling */
-        .btn-group {
-            display: flex;
-            gap: 15px;
-            position: relative;
-            width: 100%;
-            justify-content: center;
-        }
-
-        #no-btn {
-            background: #ccc;
-            box-shadow: none;
-            position: relative;
+        @media (max-width: 968px) {
+            .bg-split-panel { width: 100%; height: 35vh; bottom: 0; top: auto; clip-path: none; }
+            .navbar-top { flex-direction: column; gap: 20px; padding: 25px; }
+            .workspace-grid { flex-direction: column-reverse; height: auto; margin-top: 220px; gap: 50px; }
+            .matte-avatar-box { width: 290px; height: 370px; }
+            .content-block-left h1 { font-size: 3.2rem; }
         }
     </style>
 </head>
-<body>
+<body class="theme-1">
 
-    <div class="hearts-bg" id="heartsBg"></div>
+    <div class="cursor-aura" id="aura"></div>
+    <div class="bg-split-panel"></div>
 
-    <div class="container">
-        <!-- PAGE 1: Entry -->
-        <div class="page active" id="page1">
-            <div class="gif-placeholder">✨</div>
-            <h1>Hello Cutie,</h1>
-            <p>Welcome to my world. I built this little space just for you. Ready to step inside?</p>
-            <button class="btn" onclick="nextPage(2)">Step Inside</button>
+    <nav class="navbar-top">
+        <div class="brand-logo">Arjun<span>.</span></div>
+        <div class="right-nav-cluster">
+            <div class="dock-navigation">
+                <button class="tab-trigger active-tab" onclick="toggleSystemTab('home')"><i class="fa-solid fa-bolt"></i> Core</button>
+                <button class="tab-trigger" onclick="toggleSystemTab('about')"><i class="fa-solid fa-cube"></i> Expertise</button>
+            </div>
         </div>
+    </nav>
 
-        <!-- PAGE 2: The Main Page / Connection -->
-        <div class="page" id="page2">
-            <div class="gif-placeholder">💖</div>
-            <h1>Hey Monika...</h1>
-            <p>From the moment you walked into my life, everything changed. You became the center of my universe and the reason behind my biggest smiles.</p>
-            <button class="btn" onclick="nextPage(3)">Next ➔</button>
-        </div>
+    <div class="workspace-grid">
+        <div class="content-block-left">
+            <div id="panel-home" class="fade-panel">
+                <div class="section-tag" id="live-status">Loading Matrix...</div>
+                <h1>I'm <span>Arjun</span></h1>
+                <div class="custom-punchline">
+                    Running the digital <span>business</span> and crafting clean designs by <span>day</span>.<br>
+                    Ruling the gaming <span>zone</span> and wiping squads by <span>night</span>.
+                </div>
+                <div class="metrics-ticker-row">
+                    <div class="metric-node"><h4 class="count-item" data-target="94">0</h4><p>Retention %</p></div>
+                    <div class="metric-node"><h4 class="count-item" data-target="1200">0</h4><p>Squad Wipes</p></div>
+                    <div class="metric-node"><h4 class="count-item" data-target="100">0</h4><p>Flawless %</p></div>
+                </div>
+            </div>
 
-        <!-- PAGE 3: The Promise -->
-        <div class="page" id="page3">
-            <div class="gif-placeholder">🌸</div>
-            <h1>My Promise</h1>
-            <p>I promise to stand by you through every storm, to celebrate your happiest days, and to hold your hand whenever things get tough.</p>
-            <button class="btn" onclick="nextPage(4)">Next ➔</button>
-        </div>
-
-        <!-- PAGE 4: The Ultimate Question -->
-        <div class="page" id="page4">
-            <div class="gif-placeholder">💍</div>
-            <h1>The Big Question</h1>
-            <p>Monika, you are my today and all of my tomorrows. Will you make me the luckiest person alive?</p>
-            <h3 style="color: #ff4b6e; font-family: 'Dancing Script', cursive; font-size: 2.2rem; margin-bottom: 25px;">Will you be mine forever?</h3>
-            <div class="btn-group">
-                <button class="btn" id="yes-btn" onclick="nextPage(5)">Yes, Always! ➔</button>
-                <button class="btn" id="no-btn" onmouseover="moveNoButton()">No</button>
+            <div id="panel-about" class="fade-panel hidden-panel">
+                <div class="section-tag">Core Competencies</div>
+                <div class="about-cards-layout">
+                    <div class="card-item"><div class="icon-wrapper"><i class="fa-solid fa-code"></i></div><h3>Web Dev</h3><p>Designing pristine front-end structures and hyper-responsive layouts.</p></div>
+                    <div class="card-item"><div class="icon-wrapper"><i class="fa-solid fa-chart-line"></i></div><h3>Marketing</h3><p>Managing strategic operations, scaling workflows and active metrics.</p></div>
+                    <div class="card-item"><div class="icon-wrapper"><i class="fa-solid fa-wand-magic-sparkles"></i></div><h3>Media Cut</h3><p>Syncing professional cuts, custom dynamic pieces and templates.</p></div>
+                    <div class="card-item"><div class="icon-wrapper"><i class="fa-solid fa-crosshairs"></i></div><h3>Tactical</h3><p>Handling multi-tier lobby matches and clutch performance structures.</p></div>
+                </div>
             </div>
         </div>
 
-        <!-- PAGE 5: Celebration -->
-        <div class="page" id="page5">
-            <div class="gif-placeholder">🎉💝✨</div>
-            <h1>Yay! Thank You!</h1>
-            <p>You’ve made me the happiest person in the entire world! I love you infinitely, Monika. Forever and always. ❤️</p>
+        <div class="photo-block-right">
+            <div class="matte-avatar-box">
+                <img src="https://via.placeholder.com/350x450.png?text=Arjun+PNG" alt="Arjun Premium Portrait" class="avatar-element">
+            </div>
         </div>
     </div>
 
     <script>
-        // Go to next page function
-        function nextPage(pageNumber) {
-            // Hide all pages
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
+        // --- 7-STAGE CYCLIC THEME ENGINE (10 SECONDS INTERVAL) ---
+        let currentStage = 1;
+        const totalStages = 7;
+
+        const stageMetadata = {
+            1: "AMBER EXECUTIVE MATTE CORE",
+            2: "CYBER PULSE NEON LOBBY",
+            3: "EMERALD MINT PREMIUM",
+            4: "CRIMSON RAGE AGGRESSIVE",
+            5: "ELECTRIC CYAN HYPER TECH",
+            6: "MAGMA ORANGE VOLCANIC",
+            7: "MIDNIGHT SAPPHIRE COSMIC"
+        };
+
+        function run7StageEngine() {
+            currentStage++;
+            if (currentStage > totalStages) currentStage = 1; // reset cycle
+
+            const bodyNode = document.body;
+            const tagNode = document.getElementById('live-status');
+            
+            // Apply next theme class dynamically
+            bodyNode.className = `theme-${currentStage}`;
+            
+            // Set matching text inside indicator tag
+            tagNode.innerHTML = `<i class="fa-solid fa-circle-dot" style="font-size:0.75rem; animation: blinker 1s linear infinite;"></i> CONFIG: [STAGE 0${currentStage}] // ${stageMetadata[currentStage]}`;
+        }
+        
+        // Boot Initial Text Settings
+        document.getElementById('live-status').innerHTML = `<i class="fa-solid fa-circle-dot" style="font-size:0.75rem;"></i> CONFIG: [STAGE 01] // AMBER EXECUTIVE MATTE CORE`;
+
+        // Run theme switch loop exactly every 10 seconds (10000ms)
+        setInterval(run7StageEngine, 10000);
+
+        // --- INTERACTIVE MOUSE INTERFACE ---
+        const auraNode = document.getElementById('aura');
+        document.addEventListener('mousemove', (e) => {
+            auraNode.style.left = e.clientX + 'px';
+            auraNode.style.top = e.clientY + 'px';
+        });
+
+        // --- COUNT TICKER ---
+        function bootCounters() {
+            document.querySelectorAll('.count-item').forEach(counter => {
+                counter.innerText = '0';
+                const target = +counter.getAttribute('data-target');
+                const speed = target / 40;
+                const updateValue = () => {
+                    const value = +counter.innerText;
+                    if(value < target) {
+                        counter.innerText = Math.ceil(value + speed);
+                        setTimeout(updateValue, 25);
+                    } else {
+                        counter.innerText = target + (target === 1200 ? '+' : '');
+                    }
+                };
+                updateValue();
             });
-            // Show requested page
-            document.getElementById(`page${pageNumber}`).classList.add('active');
-
-            // Trigger extra explosion on the last page
-            if(pageNumber === 5) {
-                for(let i=0; i<30; i++) {
-                    setTimeout(createHeart, i * 100);
-                }
-            }
         }
+        setTimeout(bootCounters, 400);
 
-        // Runaway "No" button logic
-        function moveNoButton() {
-            const noBtn = document.getElementById('no-btn');
-            const container = document.querySelector('.container');
-            
-            // Get boundaries relative to the container
-            const containerWidth = container.clientWidth;
-            const containerHeight = container.clientHeight;
-            
-            // Calculate random safe coordinates
-            const randomX = Math.floor(Math.random() * (containerWidth - noBtn.clientWidth - 40)) + 20;
-            const randomY = Math.floor(Math.random() * (containerHeight - noBtn.clientHeight - 80)) + 40;
-            
-            noBtn.style.position = 'absolute';
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+        // --- NAV ROUTINES ---
+        function toggleSystemTab(tabTarget) {
+            document.querySelectorAll('.tab-trigger').forEach(trigger => trigger.classList.remove('active-tab'));
+            event.currentTarget.classList.add('active-tab');
+            document.getElementById('panel-home').classList.add('hidden-panel');
+            document.getElementById('panel-about').classList.add('hidden-panel');
+            document.getElementById(`panel-${tabTarget}`).classList.remove('hidden-panel');
+            if(tabTarget === 'home') { setTimeout(bootCounters, 100); }
         }
-
-        // Continuous Background Hearts
-        function createHeart() {
-            const heartsBg = document.getElementById('heartsBg');
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = ['❤️', '💖', '💝', '🌸', '✨'][Math.floor(Math.random() * 5)];
-            
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
-            
-            heartsBg.appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
-        }
-
-        // Generate background elements
-        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
