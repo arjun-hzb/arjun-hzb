@@ -1,0 +1,29 @@
+const { default: makeWASocket, useMultiFileAuthState } = require('@whiskeysockets/baileys');
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.static('public'));
+app.use(express.json());
+
+let sock;
+async function startBot() {
+    const { state, saveCreds } = await useMultiFileAuthState('auth');
+    sock = makeWASocket({ auth: state });
+    sock.ev.on('creds.update', saveCreds);
+}
+startBot();
+
+app.post('/send', async (req, res) => {
+    const { numbers, message } = req.body;
+    const list = numbers.split('\n');
+    for (let num of list) {
+        if(num.trim()) {
+            await sock.sendMessage(num.trim() + '@s.whatsapp.net', { text: message });
+            await new Promise(r => setTimeout(r, 5000));
+        }
+    }
+    res.send('Success');
+});
+
+app.listen(PORT, () => console.log('Bot chal raha hai!'));
