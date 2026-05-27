@@ -36,8 +36,8 @@
 
     <div id="stats-overlay">
         <h2 style="color:var(--gold)">📊 LIVE ANALYTICS</h2>
-        <p style="margin-top:20px;">School Web Visits: <span id="school-count">0</span></p>
-        <p>My Portfolio Visits: <span id="my-count">0</span></p>
+        <p style="margin-top:20px;">School Web Visits: <span id="school-count">Loading...</span></p>
+        <p>My Portfolio Visits: <span id="my-count">Loading...</span></p>
         <button onclick="document.getElementById('stats-overlay').style.display='none'" style="margin-top:20px; padding:10px 20px; cursor:pointer;">CLOSE</button>
     </div>
 
@@ -78,7 +78,8 @@
             if(document.getElementById('pin-input').value === "3231") { 
                 document.getElementById('pin-overlay').style.display = 'none';
                 document.getElementById('stats-overlay').style.display = 'flex';
-                // Fetching from new reliable API
+                
+                // Fetching Live Stats
                 fetch('https://api.apifree.com/get/arjun-school-visits').then(r=>r.json()).then(d=>document.getElementById('school-count').innerText = d.count);
                 fetch('https://api.apifree.com/get/arjun-portfolio-visits').then(r=>r.json()).then(d=>document.getElementById('my-count').innerText = d.count);
             } else { alert("Access Denied!"); }
@@ -86,6 +87,10 @@
 
         function animate() { requestAnimationFrame(animate); obj.rotation.x += 0.005; obj.rotation.y += 0.01; renderer.render(scene, camera); }
         animate();
+        
+        // Portfolio Auto-Hit (Track Visit)
+        fetch('https://api.apifree.com/hit/arjun-portfolio-visits');
+
         window.addEventListener('mousemove', (e) => gsap.to('.cursor', {x: e.clientX-10, y: e.clientY-10}));
         gsap.from('.photo-frame', {x: -200, opacity: 0, duration: 1.5});
         gsap.from('.content', {x: 200, opacity: 0, duration: 1.5});
