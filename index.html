@@ -1,16 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arjun | Creative Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --gold: #fcc419; --dark: #0a0a0a; --glass: rgba(255,255,255,0.05); }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--dark); color: #fff; cursor: none; }
+        #canvas { position: fixed; top: 0; left: 0; z-index: -1; }
+        .cursor { width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 50%; position: fixed; z-index: 9999; pointer-events: none; transition: 0.1s; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 100px 20px; }
+        .hero { display: flex; align-items: center; gap: 50px; height: 90vh; }
+        .photo-frame { width: 400px; height: 500px; background: #222; border-radius: 30px; overflow: hidden; position: relative; border: 2px solid var(--gold); }
+        .photo-frame img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.2); }
+        .content { flex: 1; }
+        
+        h1 { font-size: 5rem; line-height: 0.9; margin-bottom: 30px; }
+        .about-box { padding: 30px; background: var(--glass); backdrop-filter: blur(15px); border-radius: 20px; }
+        
+        .dock { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; padding: 15px; background: rgba(0,0,0,0.8); border-radius: 50px; border: 1px solid #333; }
+        .icon { width: 50px; height: 50px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; font-size: 20px; text-decoration: none; color: #fff; transition: 0.3s; }
+        .icon:hover { background: var(--gold); color: #000; transform: scale(1.1); }
+    </style>
+</head>
 <body>
-    <h1>School Panel</h1>
-    <textarea id="nums" placeholder="25 numbers yahan paste karo..."></textarea><br>
-    <textarea id="msg" placeholder="Message yahan likho..."></textarea><br>
-    <button onclick="send()">SEND MESSAGES</button>
+
+    <div class="cursor"></div>
+    <canvas id="canvas"></canvas>
+
+    <div class="container">
+        <section class="hero">
+            <div class="photo-frame">
+                <img src="https://i.postimg.cc/hPgFw6tw/Picsart-26-05-23-21-30-51-488.png" alt="Arjun">
+            </div>
+            <div class="content">
+                <h1>HEY<br><span style="color:var(--gold)">I'M ARJUN</span></h1>
+                <div class="about-box">
+                    <p>A 20-year-old digital nomad and tech explorer from Jharkhand (Hazaribag/Ranchi/Ramgarh). I thrive in my dedicated creative space—crafting smooth websites, shooting & editing sharp video content, and engineering mini-hacker style automation tools. When I'm offline, I'm busy clutching in BGMI, roaming in GTA V, or binge-watching epic Hollywood series, high-octane Anime, and massive South Indian movies.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="dock">
+        <a href="https://instagram.com/your__ri0" class="icon"><i class="fab fa-instagram"></i></a>
+        <a href="https://wa.me/9341344821" class="icon"><i class="fab fa-whatsapp"></i></a>
+    </div>
+
     <script>
-        async function send() {
-            const data = { numbers: document.getElementById('nums').value, message: document.getElementById('msg').value };
-            await fetch('/send', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
-            alert('Messages bhejna shuru ho gaya!');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({canvas: document.getElementById('canvas'), alpha: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const geo = new THREE.TorusKnotGeometry(5, 1.5, 100, 16);
+        const mat = new THREE.MeshBasicMaterial({ color: 0xfcc419, wireframe: true });
+        const obj = new THREE.Mesh(geo, mat);
+        scene.add(obj);
+        camera.position.z = 20;
+
+        // Color changer logic (every 10s)
+        const colors = [0xfcc419, 0xff3e3e, 0x3e86ff, 0x70ff3e, 0xff3eec];
+        setInterval(() => {
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            mat.color.setHex(randomColor);
+            gsap.to('.cursor', {borderColor: '#' + randomColor.toString(16)});
+        }, 10000);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            obj.rotation.x += 0.005; obj.rotation.y += 0.01;
+            renderer.render(scene, camera);
         }
+        animate();
+
+        window.addEventListener('mousemove', (e) => {
+            gsap.to('.cursor', {x: e.clientX-10, y: e.clientY-10});
+        });
+        gsap.from('.photo-frame', {x: -200, opacity: 0, duration: 1.5});
+        gsap.from('.content', {x: 200, opacity: 0, duration: 1.5});
     </script>
 </body>
 </html>
