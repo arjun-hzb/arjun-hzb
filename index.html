@@ -35,9 +35,9 @@
     </div>
 
     <div id="stats-overlay">
-        <h2 style="color:var(--gold)">📊 ANALYTICS</h2>
-        <p style="margin-top:20px;">School Web Visits: <span id="school-count">Loading...</span></p>
-        <p>My Portfolio Visits: <span id="my-count">Loading...</span></p>
+        <h2 style="color:var(--gold)">📊 LIVE ANALYTICS</h2>
+        <p style="margin-top:20px;">School Web Visits: <span id="school-count">0</span></p>
+        <p>My Portfolio Visits: <span id="my-count">0</span></p>
         <button onclick="document.getElementById('stats-overlay').style.display='none'" style="margin-top:20px; padding:10px 20px; cursor:pointer;">CLOSE</button>
     </div>
 
@@ -47,7 +47,7 @@
             <div class="content">
                 <h1 id="admin-trigger">HEY<br><span style="color:var(--gold)">I'M ARJUN</span></h1>
                 <div class="about-box">
-                    <p>A 20-year-old digital nomad and tech explorer from Jharkhand (Hazaribag/Ranchi/Ramgarh). I thrive in my dedicated creative space—crafting smooth websites, shooting & editing sharp video content, and engineering mini-hacker style automation tools. When I'm offline, I'm busy clutching in BGMI, roaming in GTA V, or binge-watching epic Hollywood series, high-octane Anime, and massive South Indian movies.</p>
+                    <p>A 20-year-old digital nomad and tech explorer from Jharkhand (Hazaribag/Ranchi/Ramgarh). I thrive in my dedicated creative space—crafting smooth websites, shooting & editing sharp video content, and engineering mini-hacker style automation tools.</p>
                 </div>
             </div>
         </section>
@@ -70,8 +70,6 @@
         
         let timer;
         const trigger = document.getElementById('admin-trigger');
-        
-        // Optimized Event Listeners
         trigger.addEventListener('pointerdown', () => timer = setTimeout(() => document.getElementById('pin-overlay').style.display = 'flex', 10000));
         trigger.addEventListener('pointerup', () => clearTimeout(timer));
         trigger.addEventListener('pointerleave', () => clearTimeout(timer));
@@ -80,17 +78,13 @@
             if(document.getElementById('pin-input').value === "3231") { 
                 document.getElementById('pin-overlay').style.display = 'none';
                 document.getElementById('stats-overlay').style.display = 'flex';
-                fetch('https://api.countapi.xyz/get/arjun-school-site/visits').then(r=>r.json()).then(d=>document.getElementById('school-count').innerText = d.value);
-                fetch('https://api.countapi.xyz/get/arjun-portfolio/visits').then(r=>r.json()).then(d=>document.getElementById('my-count').innerText = d.value);
+                // Fetching from new reliable API
+                fetch('https://api.apifree.com/get/arjun-school-visits').then(r=>r.json()).then(d=>document.getElementById('school-count').innerText = d.count);
+                fetch('https://api.apifree.com/get/arjun-portfolio-visits').then(r=>r.json()).then(d=>document.getElementById('my-count').innerText = d.count);
             } else { alert("Access Denied!"); }
         }
 
-        function animate() { 
-            requestAnimationFrame(animate); 
-            obj.rotation.x += 0.005; 
-            obj.rotation.y += 0.01; 
-            renderer.render(scene, camera); 
-        }
+        function animate() { requestAnimationFrame(animate); obj.rotation.x += 0.005; obj.rotation.y += 0.01; renderer.render(scene, camera); }
         animate();
         window.addEventListener('mousemove', (e) => gsap.to('.cursor', {x: e.clientX-10, y: e.clientY-10}));
         gsap.from('.photo-frame', {x: -200, opacity: 0, duration: 1.5});
