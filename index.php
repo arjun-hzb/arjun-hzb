@@ -1,3 +1,27 @@
+<?php
+session_start();
+$count_file = 'count.txt';
+$online_file = 'online_users.txt';
+
+// 1. Total Count (IP/Cookie check)
+if (!isset($_SESSION['visited'])) {
+    if (!isset($_COOKIE['recent_visitor'])) {
+        $count = file_exists($count_file) ? (int)file_get_contents($count_file) : 0;
+        $count++;
+        file_put_contents($count_file, $count);
+        setcookie('recent_visitor', 'yes', time() + 3600, "/");
+    }
+    $_SESSION['visited'] = true;
+}
+$total = file_exists($count_file) ? file_get_contents($count_file) : 0;
+
+// 2. Live Count
+$users = file_exists($online_file) ? unserialize(file_get_contents($online_file)) : [];
+$users[session_id()] = time();
+foreach($users as $id => $time) { if ($time < (time() - 300)) unset($users[$id]); }
+file_put_contents($online_file, serialize($users));
+$live = count($users);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,9 +112,10 @@
         function animate() { requestAnimationFrame(animate); obj.rotation.x += 0.005; obj.rotation.y += 0.01; renderer.render(scene, camera); }
         animate();
         
-        // Portfolio Auto-Hit (Track Visit)
-        fetch('https://api.apifree.com/hit/arjun-portfolio-visits');
-
+        <div style="font-family: sans-serif; font-size: 14px; color: #fff;">
+    Total Visitors: <strong><?php echo $total; ?></strong> | 
+    Live Online: <strong style="color: #00ff00;"><?php echo $live; ?></strong>
+</div>
         window.addEventListener('mousemove', (e) => gsap.to('.cursor', {x: e.clientX-10, y: e.clientY-10}));
         gsap.from('.photo-frame', {x: -200, opacity: 0, duration: 1.5});
         gsap.from('.content', {x: 200, opacity: 0, duration: 1.5});
